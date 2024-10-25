@@ -8,7 +8,7 @@ export class UserController {
     next: NextFunction
   ): Promise<any> {
     try {
-      const result = await UserService.getAllUser();
+      const result = await UserService.getAllUser(req.query);
       return res.status(200).json({
         statusCode: 200,
         message: "success get user",
