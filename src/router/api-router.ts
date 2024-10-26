@@ -10,5 +10,10 @@ apiRouter.use(authMiddleware);
 apiRouter.get("/api/me", MeController.test);
 
 apiRouter.get("/api/user", UserController.getAllUser);
+apiRouter.get("/api/user/:userId", UserController.getDetailUserByUserId);
+apiRouter.patch(
+  "/api/user/:userId/is_active",
+  UserController.updateIsActiveUser
+);
 
 export { apiRouter };
