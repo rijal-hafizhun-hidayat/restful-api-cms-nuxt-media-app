@@ -3,6 +3,7 @@ import { authMiddleware } from "../middleware/auth-middleware";
 import { MeController } from "../controller/me-controller";
 import { UserController } from "../controller/user-controller";
 import { PostController } from "../controller/post-controller";
+import { PostCommentController } from "../controller/post-comment-controller";
 
 const apiRouter = express();
 
@@ -17,5 +18,9 @@ apiRouter.patch(
   UserController.updateIsActiveUser
 );
 apiRouter.get("/api/user/:userId/post", PostController.getPostByUserId);
+apiRouter.get(
+  "/api/post/:postId/comment",
+  PostCommentController.getPostCommentByPostId
+);
 
 export { apiRouter };
