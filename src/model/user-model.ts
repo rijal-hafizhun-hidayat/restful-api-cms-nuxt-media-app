@@ -1,12 +1,12 @@
 export interface UserResponse {
   id: number;
   name: string;
-  email: string;
+  email?: string;
   is_active?: boolean | null;
-  created_at: Date;
-  updated_at: Date;
-  email_verified_at: Date | null;
-  bio: string | null;
+  created_at?: Date;
+  updated_at?: Date;
+  email_verified_at?: Date | null;
+  bio?: string | null;
   avatar?: string | null;
   post_like_count?: number;
   post_comment_count?: number;

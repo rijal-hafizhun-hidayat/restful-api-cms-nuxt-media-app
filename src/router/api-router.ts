@@ -2,6 +2,7 @@ import express from "express";
 import { authMiddleware } from "../middleware/auth-middleware";
 import { MeController } from "../controller/me-controller";
 import { UserController } from "../controller/user-controller";
+import { PostController } from "../controller/post-controller";
 
 const apiRouter = express();
 
@@ -15,5 +16,6 @@ apiRouter.patch(
   "/api/user/:userId/is_active",
   UserController.updateIsActiveUser
 );
+apiRouter.get("/api/user/:userId/post", PostController.getPostByUserId);
 
 export { apiRouter };
