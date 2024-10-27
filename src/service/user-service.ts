@@ -32,15 +32,6 @@ export class UserService {
       where: {
         id: userId,
       },
-      include: {
-        _count: {
-          select: {
-            post_like: true,
-            post_comment: true,
-            post: true,
-          },
-        },
-      },
     });
 
     if (!user) {

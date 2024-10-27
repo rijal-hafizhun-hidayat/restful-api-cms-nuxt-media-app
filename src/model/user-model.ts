@@ -8,15 +8,6 @@ export interface UserResponse {
   email_verified_at?: Date | null;
   bio?: string | null;
   avatar?: string | null;
-  post_like_count?: number;
-  post_comment_count?: number;
-  post_count?: number;
-}
-
-export interface UserCount {
-  post_like: number;
-  post_comment: number;
-  post: number;
 }
 
 export interface UserRequest {
@@ -35,9 +26,7 @@ export function toUserResponseArray(user: UserResponse[]): UserResponse[] {
   }));
 }
 
-export function toUserResponse(
-  user: UserResponse & { _count?: UserCount }
-): UserResponse {
+export function toUserResponse(user: UserResponse): UserResponse {
   return {
     id: user.id,
     name: user.name,
@@ -50,8 +39,5 @@ export function toUserResponse(
     avatar: user.avatar
       ? `${Bun.env.STORAGE_BASE_URL}/storage/profile/${user.avatar}`
       : null,
-    post_like_count: user._count?.post_like ?? 0,
-    post_comment_count: user._count?.post_comment ?? 0,
-    post_count: user._count?.post ?? 0,
   };
 }
