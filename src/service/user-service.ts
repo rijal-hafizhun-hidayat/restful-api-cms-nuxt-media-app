@@ -1,19 +1,19 @@
 import type { Request } from "express";
 import { prisma } from "../app/database";
-import { toUserResponseArray, type UserResponse } from "../model/user-model";
+import {
+  toUserResponse,
+  toUserResponseArray,
+  type UserRequest,
+  type UserResponse,
+} from "../model/user-model";
+import { ErrorResponse } from "../error/error-response";
+import { Validation } from "../validation/validation";
+import { UserValidation } from "../validation/user-validation";
 
 export class UserService {
   static async getAllUser(query: Request["query"]): Promise<UserResponse[]> {
     const { name, email } = query;
     const user = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        created_at: true,
-        updated_at: true,
-        email_verified_at: true,
-      },
       where: {
         name: {
           contains: name as string,
@@ -25,5 +25,61 @@ export class UserService {
     });
 
     return toUserResponseArray(user);
+  }
+
+  static async getDetailUserById(userId: number): Promise<UserResponse> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        _count: {
+          select: {
+            post_like: true,
+            post_comment: true,
+            post: true,
+          },
+        },
+      },
+    });
+
+    if (!user) {
+      throw new ErrorResponse(404, "user not found");
+    }
+
+    return toUserResponse(user);
+  }
+
+  static async updateIsActiveUser(
+    userId: number,
+    request: UserRequest
+  ): Promise<UserResponse> {
+    const requestBody: UserRequest = Validation.validate(
+      UserValidation.updateIsActiveUserValidation,
+      request
+    );
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new ErrorResponse(404, "user not found");
+    }
+
+    const [updateUser] = await prisma.$transaction([
+      prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          is_active: requestBody.is_active,
+        },
+      }),
+    ]);
+
+    return toUserResponse(updateUser);
   }
 }
