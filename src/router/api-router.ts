@@ -4,6 +4,7 @@ import { MeController } from "../controller/me-controller";
 import { UserController } from "../controller/user-controller";
 import { PostController } from "../controller/post-controller";
 import { PostCommentController } from "../controller/post-comment-controller";
+import { RoleController } from "../controller/role-controller";
 
 const apiRouter = express();
 
@@ -32,5 +33,8 @@ apiRouter.get(
   "/api/post/:postId/comment",
   PostCommentController.getPostCommentByPostId
 );
+
+apiRouter.get("/api/role", RoleController.getAllRole);
+apiRouter.get("/api/role/:roleId", RoleController.getRoleByRoleId);
 
 export { apiRouter };
