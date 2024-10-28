@@ -23,6 +23,7 @@ apiRouter.get(
   PostController.getActivityPostByUserId
 );
 
+apiRouter.delete("/api/post/:postId", PostController.destroyPostByPostId);
 apiRouter.post(
   "/api/post/:postId/comment",
   PostCommentController.storeCommentByPostId

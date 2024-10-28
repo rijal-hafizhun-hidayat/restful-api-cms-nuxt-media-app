@@ -42,6 +42,16 @@ export function toPostResponseArray(
   }));
 }
 
+export function toPostResponse(post: post): PostResponse {
+  return {
+    id: post.id,
+    user_id: post.user_id,
+    content: post.content,
+    created_at: post.created_at,
+    updated_at: post.updated_at,
+  };
+}
+
 export function toActivityPostUser(
   posts: (PostResponse & { _count: PostCount })[]
 ): ActivityPostResponse[] {
