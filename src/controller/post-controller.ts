@@ -37,4 +37,22 @@ export class PostController {
       next(error);
     }
   }
+
+  static async destroyPostByPostId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const postId: number = parseInt(req.params.postId);
+      const result = await PostService.destroyPostByPostId(postId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success destroy post",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -1,6 +1,8 @@
 import { prisma } from "../app/database";
+import { ErrorResponse } from "../error/error-response";
 import {
   toActivityPostUser,
+  toPostResponse,
   toPostResponseArray,
   type ActivityPostResponse,
   type PostCount,
@@ -45,5 +47,27 @@ export class PostService {
     });
 
     return toActivityPostUser(activityPosts);
+  }
+
+  static async destroyPostByPostId(postId: number): Promise<PostResponse> {
+    const isPostExist = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!postId) {
+      throw new ErrorResponse(404, "post not exist");
+    }
+
+    const [deletedPost] = await prisma.$transaction([
+      prisma.post.delete({
+        where: {
+          id: postId,
+        },
+      }),
+    ]);
+
+    return toPostResponse(deletedPost);
   }
 }
