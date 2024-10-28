@@ -19,4 +19,22 @@ export class PostController {
       next(error);
     }
   }
+
+  static async getActivityPostByUserId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const userId: number = parseInt(req.params.userId);
+      const result = await PostService.getActivityPostByUserId(userId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success get activity post",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

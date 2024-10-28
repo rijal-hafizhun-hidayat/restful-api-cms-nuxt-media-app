@@ -1,3 +1,4 @@
+import type { post } from "@prisma/client";
 import type { UserResponse } from "./user-model";
 
 export interface PostResponse {
@@ -10,6 +11,12 @@ export interface PostResponse {
   user?: UserResponse;
   post_like_count?: number;
   post_comment_count?: number;
+}
+
+export interface ActivityPostResponse {
+  id: number;
+  post_like_count: number;
+  post_comment_count: number;
 }
 
 export interface PostCount {
@@ -32,5 +39,15 @@ export function toPostResponseArray(
     },
     post_like_count: post._count.post_like ?? 0,
     post_comment_count: post._count.post_comment ?? 0,
+  }));
+}
+
+export function toActivityPostUser(
+  posts: (PostResponse & { _count: PostCount })[]
+): ActivityPostResponse[] {
+  return posts.map((post) => ({
+    id: post.id,
+    post_comment_count: post._count.post_comment ?? 0,
+    post_like_count: post._count.post_like ?? 0,
   }));
 }
