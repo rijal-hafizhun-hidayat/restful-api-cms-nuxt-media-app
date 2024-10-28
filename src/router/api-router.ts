@@ -18,6 +18,10 @@ apiRouter.patch(
   UserController.updateIsActiveUser
 );
 apiRouter.get("/api/user/:userId/post", PostController.getPostByUserId);
+apiRouter.get(
+  "/api/user/:userId/activity_post",
+  PostController.getActivityPostByUserId
+);
 
 apiRouter.post(
   "/api/post/:postId/comment",
