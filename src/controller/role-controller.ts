@@ -8,7 +8,8 @@ export class RoleController {
     next: NextFunction
   ): Promise<any> {
     try {
-      const result = await RoleService.getAllRole();
+      const query: Request["query"] = req.query as Request["query"];
+      const result = await RoleService.getAllRole(query);
       return res.status(200).json({
         statusCode: 200,
         message: "success get role",

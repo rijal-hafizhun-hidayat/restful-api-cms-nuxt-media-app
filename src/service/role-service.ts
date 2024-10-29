@@ -1,3 +1,4 @@
+import type { Request } from "express";
 import { prisma } from "../app/database";
 import { ErrorResponse } from "../error/error-response";
 import {
@@ -8,8 +9,14 @@ import {
 } from "../model/role-model";
 
 export class RoleService {
-  static async getAllRole(): Promise<RoleResponse[]> {
-    const roles = await prisma.role.findMany();
+  static async getAllRole(query: Request["query"]): Promise<RoleResponse[]> {
+    const roles = await prisma.role.findMany({
+      where: {
+        name: {
+          contains: query.name as string,
+        },
+      },
+    });
 
     return toRoleResponseArray(roles);
   }
