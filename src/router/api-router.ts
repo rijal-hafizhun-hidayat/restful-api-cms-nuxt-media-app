@@ -4,6 +4,7 @@ import { MeController } from "../controller/me-controller";
 import { UserController } from "../controller/user-controller";
 import { PostController } from "../controller/post-controller";
 import { PostCommentController } from "../controller/post-comment-controller";
+import { RoleController } from "../controller/role-controller";
 
 const apiRouter = express();
 
@@ -12,6 +13,7 @@ apiRouter.use(authMiddleware);
 apiRouter.get("/api/me", MeController.test);
 
 apiRouter.get("/api/user", UserController.getAllUser);
+apiRouter.delete("/api/user/:userId", UserController.destroyUserByUserId);
 apiRouter.get("/api/user/:userId", UserController.getDetailUserByUserId);
 apiRouter.patch(
   "/api/user/:userId/is_active",
@@ -32,5 +34,8 @@ apiRouter.get(
   "/api/post/:postId/comment",
   PostCommentController.getPostCommentByPostId
 );
+
+apiRouter.get("/api/role", RoleController.getAllRole);
+apiRouter.get("/api/role/:roleId", RoleController.getRoleByRoleId);
 
 export { apiRouter };

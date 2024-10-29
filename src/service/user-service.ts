@@ -73,4 +73,26 @@ export class UserService {
 
     return toUserResponse(updateUser);
   }
+
+  static async destroyUserByUserId(userId: number): Promise<UserResponse> {
+    const isUserExist = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!isUserExist) {
+      throw new ErrorResponse(404, "user not found");
+    }
+
+    const [deletedUser] = await prisma.$transaction([
+      prisma.user.delete({
+        where: {
+          id: userId,
+        },
+      }),
+    ]);
+
+    return toUserResponse(deletedUser);
+  }
 }

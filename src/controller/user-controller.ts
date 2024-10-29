@@ -56,4 +56,22 @@ export class UserController {
       next(error);
     }
   }
+
+  static async destroyUserByUserId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const userId: number = parseInt(req.params.userId);
+      const result = await UserService.destroyUserByUserId(userId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success destroy user",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
