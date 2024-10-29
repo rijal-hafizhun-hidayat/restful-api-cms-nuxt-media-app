@@ -1,4 +1,4 @@
-import type { user_role } from "@prisma/client";
+import type { role, user_role } from "@prisma/client";
 import type { UserResponse } from "./user-model";
 
 export interface RoleResponse {
@@ -34,7 +34,7 @@ export type RoleWithUserRoles = RoleResponse & {
   user_role: Array<user_role & { user: UserResponse }>;
 };
 
-export function toRoleResponse(role: RoleWithUserRoles): RoleResponse {
+export function toRoleWithUserResponse(role: RoleWithUserRoles): RoleResponse {
   return {
     id: role.id,
     name: role.name,
@@ -49,5 +49,14 @@ export function toRoleResponse(role: RoleWithUserRoles): RoleResponse {
         updated_at: user_role.user.updated_at,
         email_verified_at: user_role.user.email_verified_at,
       })) ?? [],
+  };
+}
+
+export function toRoleResponse(role: role): RoleResponse {
+  return {
+    id: role.id,
+    name: role.name,
+    created_at: role.created_at,
+    updated_at: role.updated_at,
   };
 }

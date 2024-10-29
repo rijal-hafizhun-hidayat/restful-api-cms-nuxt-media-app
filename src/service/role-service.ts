@@ -4,6 +4,7 @@ import { ErrorResponse } from "../error/error-response";
 import {
   toRoleResponse,
   toRoleResponseArray,
+  toRoleWithUserResponse,
   type RoleResponse,
   type RoleWithUserRoles,
 } from "../model/role-model";
@@ -39,6 +40,28 @@ export class RoleService {
       throw new ErrorResponse(404, "role not found");
     }
 
-    return toRoleResponse(role);
+    return toRoleWithUserResponse(role);
+  }
+
+  static async destroyRoleByRoleId(roleId: number): Promise<RoleResponse> {
+    const isRoleExist = await prisma.role.findUnique({
+      where: {
+        id: roleId,
+      },
+    });
+
+    if (!isRoleExist) {
+      throw new ErrorResponse(404, "role not found");
+    }
+
+    const [deletedRole] = await prisma.$transaction([
+      prisma.role.delete({
+        where: {
+          id: roleId,
+        },
+      }),
+    ]);
+
+    return toRoleResponse(deletedRole);
   }
 }
