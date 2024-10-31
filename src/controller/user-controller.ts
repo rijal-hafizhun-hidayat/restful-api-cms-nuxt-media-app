@@ -74,4 +74,22 @@ export class UserController {
       next(error);
     }
   }
+
+  static async updateEmailVerifiedAtByUserId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const userId: number = parseInt(req.params.userId);
+      const result = await UserService.updateEmailVerifiedAtByUserId(userId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success verified user",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

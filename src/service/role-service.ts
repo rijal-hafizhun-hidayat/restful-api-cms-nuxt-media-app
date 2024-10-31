@@ -22,7 +22,10 @@ export class RoleService {
     return toRoleResponseArray(roles);
   }
 
-  static async getRoleByRoleId(roleId: number): Promise<RoleResponse> {
+  static async getRoleByRoleId(
+    roleId: number,
+    query: Request["query"]
+  ): Promise<RoleResponse> {
     const role: RoleWithUserRoles | null = await prisma.role.findUnique({
       where: {
         id: roleId,
@@ -31,6 +34,16 @@ export class RoleService {
         user_role: {
           include: {
             user: true,
+          },
+          where: {
+            user: {
+              name: {
+                contains: query.name as string,
+              },
+              email: {
+                contains: query.email as string,
+              },
+            },
           },
         },
       },
