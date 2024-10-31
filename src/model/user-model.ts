@@ -20,6 +20,7 @@ export function toUserResponseArray(user: UserResponse[]): UserResponse[] {
     name: user.name,
     email: user.email,
     bio: user.bio ?? null,
+    is_active: user.is_active ?? null,
     created_at: user.created_at,
     updated_at: user.updated_at,
     email_verified_at: user.email_verified_at ?? null,

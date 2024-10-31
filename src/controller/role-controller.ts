@@ -37,4 +37,22 @@ export class RoleController {
       next(error);
     }
   }
+
+  static async destroyRoleByRoleId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const roleId: number = parseInt(req.params.roleId);
+      const result = await RoleService.destroyRoleByRoleId(roleId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success destroy role",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

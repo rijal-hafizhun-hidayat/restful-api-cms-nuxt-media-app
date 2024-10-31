@@ -5,6 +5,7 @@ import { UserController } from "../controller/user-controller";
 import { PostController } from "../controller/post-controller";
 import { PostCommentController } from "../controller/post-comment-controller";
 import { RoleController } from "../controller/role-controller";
+import { UserRoleController } from "../controller/user-role-controller";
 
 const apiRouter = express();
 
@@ -37,5 +38,8 @@ apiRouter.get(
 
 apiRouter.get("/api/role", RoleController.getAllRole);
 apiRouter.get("/api/role/:roleId", RoleController.getRoleByRoleId);
+apiRouter.delete("/api/role/:roleId", RoleController.destroyRoleByRoleId);
+
+apiRouter.post("/api/user_role", UserRoleController.storeUserRole);
 
 export { apiRouter };
