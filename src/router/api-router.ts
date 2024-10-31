@@ -20,6 +20,10 @@ apiRouter.patch(
   "/api/user/:userId/is_active",
   UserController.updateIsActiveUser
 );
+apiRouter.patch(
+  "/api/user/:userId/verif",
+  UserController.updateEmailVerifiedAtByUserId
+);
 apiRouter.get("/api/user/:userId/post", PostController.getPostByUserId);
 apiRouter.get(
   "/api/user/:userId/activity_post",

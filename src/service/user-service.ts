@@ -95,4 +95,31 @@ export class UserService {
 
     return toUserResponse(deletedUser);
   }
+
+  static async updateEmailVerifiedAtByUserId(
+    userId: number
+  ): Promise<UserResponse> {
+    const isUserExist = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!isUserExist) {
+      throw new ErrorResponse(404, "user not found");
+    }
+
+    const [updatedUser] = await prisma.$transaction([
+      prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          email_verified_at: new Date(),
+        },
+      }),
+    ]);
+
+    return toUserResponse(updatedUser);
+  }
 }

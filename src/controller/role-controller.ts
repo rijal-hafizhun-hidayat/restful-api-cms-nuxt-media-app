@@ -26,8 +26,9 @@ export class RoleController {
     next: NextFunction
   ): Promise<any> {
     try {
+      const query: Request["query"] = req.query;
       const roleId: number = parseInt(req.params.roleId);
-      const result = await RoleService.getRoleByRoleId(roleId);
+      const result = await RoleService.getRoleByRoleId(roleId, query);
       return res.status(200).json({
         statusCode: 200,
         message: "success get role by role id",
