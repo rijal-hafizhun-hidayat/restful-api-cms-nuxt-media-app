@@ -1,12 +1,16 @@
 import { prisma } from "../app/database";
 import { ErrorResponse } from "../error/error-response";
-import type { LoginRequest } from "../model/auth-model";
+import {
+  toLoginResponse,
+  type LoginRequest,
+  type LoginResponse,
+} from "../model/auth-model";
 import { TokenUtils } from "../utils/token-utils";
 import { AuthValidation } from "../validation/auth-validation";
 import { Validation } from "../validation/validation";
 
 export class AuthService {
-  static async login(request: LoginRequest): Promise<string> {
+  static async login(request: LoginRequest): Promise<LoginResponse> {
     const requestBody: LoginRequest = Validation.validate(
       AuthValidation.loginValidation,
       request
@@ -15,6 +19,13 @@ export class AuthService {
     const user = await prisma.user.findUnique({
       where: {
         email: requestBody.email,
+      },
+      include: {
+        user_role: {
+          include: {
+            role: true,
+          },
+        },
       },
     });
 
@@ -33,6 +44,6 @@ export class AuthService {
 
     const token = await TokenUtils.generateToken(user);
 
-    return token;
+    return toLoginResponse(user, token);
   }
 }
