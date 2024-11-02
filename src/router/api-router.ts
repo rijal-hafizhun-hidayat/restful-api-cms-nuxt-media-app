@@ -41,8 +41,11 @@ apiRouter.get(
 );
 
 apiRouter.get("/api/role", RoleController.getAllRole);
-apiRouter.get("/api/role/:roleId", RoleController.getRoleByRoleId);
+apiRouter.post("/api/role", RoleController.storeRole);
+apiRouter.get("/api/role/:roleId", RoleController.findRoleByRoleId);
 apiRouter.delete("/api/role/:roleId", RoleController.destroyRoleByRoleId);
+apiRouter.put("/api/role/:roleId", RoleController.updateRoleByRoleId);
+apiRouter.get("/api/role/:roleId/user", RoleController.getRoleByRoleId);
 
 apiRouter.post("/api/user_role", UserRoleController.storeUserRole);
 
