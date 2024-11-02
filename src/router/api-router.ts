@@ -1,17 +1,17 @@
 import express from "express";
 import { authMiddleware } from "../middleware/auth-middleware";
-import { MeController } from "../controller/me-controller";
 import { UserController } from "../controller/user-controller";
 import { PostController } from "../controller/post-controller";
 import { PostCommentController } from "../controller/post-comment-controller";
 import { RoleController } from "../controller/role-controller";
 import { UserRoleController } from "../controller/user-role-controller";
+import { AuthController } from "../controller/auth-controller";
 
 const apiRouter = express();
 
 apiRouter.use(authMiddleware);
 
-apiRouter.get("/api/me", MeController.test);
+apiRouter.get("/api/me", AuthController.currentUser);
 
 apiRouter.get("/api/user", UserController.getAllUser);
 apiRouter.delete("/api/user/:userId", UserController.destroyUserByUserId);
