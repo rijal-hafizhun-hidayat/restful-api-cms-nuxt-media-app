@@ -17,6 +17,10 @@ export interface UserRole {
   user: UserResponse;
 }
 
+export interface RoleRequest {
+  name: string;
+}
+
 // export interface RoleWithUsersResponse extends RoleResponse {
 //   user: UserResponse[];
 // }
