@@ -11,6 +11,12 @@ export interface UserResponse {
 }
 
 export interface UserRequest {
+  bio: string | null;
+  name: string;
+  email: string;
+}
+
+export interface UserIsActiveRequest {
   is_active?: boolean;
 }
 

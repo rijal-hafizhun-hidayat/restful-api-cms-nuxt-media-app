@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { UserService } from "../service/user-service";
-import type { UserRequest } from "../model/user-model";
+import type { UserIsActiveRequest, UserRequest } from "../model/user-model";
 
 export class UserController {
   static async getAllUser(
@@ -45,7 +45,7 @@ export class UserController {
   ): Promise<any> {
     try {
       const userId: number = parseInt(req.params.userId);
-      const request: UserRequest = req.body as UserRequest;
+      const request: UserIsActiveRequest = req.body as UserIsActiveRequest;
       const result = await UserService.updateIsActiveUser(userId, request);
       return res.status(200).json({
         statusCode: 200,
@@ -86,6 +86,43 @@ export class UserController {
       return res.status(200).json({
         statusCode: 200,
         message: "success verified user",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async findUserByUserId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const userId: number = parseInt(req.params.userId);
+      const result = await UserService.findUserByUserId(userId);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success get user",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateUserByUserId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const userId: number = parseInt(req.params.userId);
+      const request: UserRequest = req.body as UserRequest;
+      const result = await UserService.updateUserByUserId(userId, request);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success update user",
         data: result,
       });
     } catch (error) {

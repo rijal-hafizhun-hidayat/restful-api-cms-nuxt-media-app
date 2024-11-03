@@ -3,6 +3,7 @@ import { prisma } from "../app/database";
 import {
   toUserResponse,
   toUserResponseArray,
+  type UserIsActiveRequest,
   type UserRequest,
   type UserResponse,
 } from "../model/user-model";
@@ -43,9 +44,9 @@ export class UserService {
 
   static async updateIsActiveUser(
     userId: number,
-    request: UserRequest
+    request: UserIsActiveRequest
   ): Promise<UserResponse> {
-    const requestBody: UserRequest = Validation.validate(
+    const requestBody: UserIsActiveRequest = Validation.validate(
       UserValidation.updateIsActiveUserValidation,
       request
     );
@@ -116,6 +117,55 @@ export class UserService {
         },
         data: {
           email_verified_at: new Date(),
+        },
+      }),
+    ]);
+
+    return toUserResponse(updatedUser);
+  }
+
+  static async findUserByUserId(userId: number): Promise<UserResponse> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new ErrorResponse(404, "user not found");
+    }
+
+    return toUserResponse(user);
+  }
+
+  static async updateUserByUserId(
+    userId: number,
+    request: UserRequest
+  ): Promise<UserResponse> {
+    const requestBody: UserRequest = Validation.validate(
+      UserValidation.updateUserValidation,
+      request
+    );
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new ErrorResponse(404, "user not found");
+    }
+
+    const [updatedUser] = await prisma.$transaction([
+      prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          name: requestBody.name,
+          email: requestBody.email,
+          bio: requestBody.bio ?? null,
         },
       }),
     ]);
