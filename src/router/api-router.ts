@@ -15,7 +15,9 @@ apiRouter.get("/api/me", AuthController.currentUser);
 
 apiRouter.get("/api/user", UserController.getAllUser);
 apiRouter.delete("/api/user/:userId", UserController.destroyUserByUserId);
-apiRouter.get("/api/user/:userId", UserController.getDetailUserByUserId);
+apiRouter.get("/api/user/:userId", UserController.findUserByUserId);
+apiRouter.put("/api/user/:userId", UserController.updateUserByUserId);
+apiRouter.get("/api/user/:userId/detail", UserController.getDetailUserByUserId);
 apiRouter.patch(
   "/api/user/:userId/is_active",
   UserController.updateIsActiveUser
