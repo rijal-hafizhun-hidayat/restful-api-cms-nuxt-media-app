@@ -50,5 +50,9 @@ apiRouter.put("/api/role/:roleId", RoleController.updateRoleByRoleId);
 apiRouter.get("/api/role/:roleId/user", RoleController.getRoleByRoleId);
 
 apiRouter.post("/api/user_role", UserRoleController.storeUserRole);
+apiRouter.delete(
+  "/api/user_role/:roleId/:userId",
+  UserRoleController.destroyUserRoleByRoleIdUserId
+);
 
 export { apiRouter };

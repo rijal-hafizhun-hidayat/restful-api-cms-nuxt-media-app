@@ -1,5 +1,12 @@
-export interface UserRoleRequest {
+import type { user_role } from "@prisma/client";
+
+export interface UserRoleRequestArr {
   userRole: UserRoleResponse[];
+}
+
+export interface UserRoleRequest {
+  user_id: number;
+  role_id: number;
 }
 
 export interface UserRoleResponse {
@@ -18,4 +25,13 @@ export function toUserRoleResponseArray(
     created_at: userRole.created_at,
     updated_at: userRole.updated_at,
   }));
+}
+
+export function toUserRoleResponse(userRole: user_role): UserRoleResponse {
+  return {
+    user_id: userRole.user_id,
+    role_id: userRole.role_id,
+    created_at: userRole.created_at,
+    updated_at: userRole.updated_at,
+  };
 }
