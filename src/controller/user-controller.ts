@@ -147,4 +147,21 @@ export class UserController {
       next(error);
     }
   }
+
+  static async getUserWithoutUserRole(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const result = await UserService.getUserWithoutUserRole();
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success get user without user role",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

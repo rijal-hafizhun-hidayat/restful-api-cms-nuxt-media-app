@@ -206,4 +206,16 @@ export class UserService {
 
     return toUserResponse(storeUser);
   }
+
+  static async getUserWithoutUserRole(): Promise<UserResponse[]> {
+    const users = await prisma.user.findMany({
+      where: {
+        user_role: {
+          none: {},
+        },
+      },
+    });
+
+    return toUserResponseArray(users);
+  }
 }

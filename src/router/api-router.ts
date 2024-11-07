@@ -17,6 +17,10 @@ apiRouter.get("/api/me", AuthController.currentUser);
 
 apiRouter.get("/api/user", UserController.getAllUser);
 apiRouter.post("/api/user", UserController.storeUser);
+apiRouter.get(
+  "/api/user/without_user_role",
+  UserController.getUserWithoutUserRole
+);
 apiRouter.delete("/api/user/:userId", UserController.destroyUserByUserId);
 apiRouter.get("/api/user/:userId", UserController.findUserByUserId);
 apiRouter.put("/api/user/:userId", UserController.updateUserByUserId);
