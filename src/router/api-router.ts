@@ -6,24 +6,24 @@ import { PostCommentController } from "../controller/post-comment-controller";
 import { RoleController } from "../controller/role-controller";
 import { UserRoleController } from "../controller/user-role-controller";
 import { AuthController } from "../controller/auth-controller";
+import { adminMiddleware } from "../middleware/admin-middleware";
 
 const apiRouter = express();
 
 apiRouter.use(authMiddleware);
+apiRouter.use(adminMiddleware);
 
 apiRouter.get("/api/me", AuthController.currentUser);
 
 apiRouter.get("/api/user", UserController.getAllUser);
+apiRouter.post("/api/user", UserController.storeUser);
 apiRouter.delete("/api/user/:userId", UserController.destroyUserByUserId);
 apiRouter.get("/api/user/:userId", UserController.findUserByUserId);
 apiRouter.put("/api/user/:userId", UserController.updateUserByUserId);
 apiRouter.get("/api/user/:userId/detail", UserController.getDetailUserByUserId);
+apiRouter.patch("/api/user/:userId/active", UserController.updateIsActiveUser);
 apiRouter.patch(
-  "/api/user/:userId/is_active",
-  UserController.updateIsActiveUser
-);
-apiRouter.patch(
-  "/api/user/:userId/verif",
+  "/api/user/:userId/verif_email",
   UserController.updateEmailVerifiedAtByUserId
 );
 apiRouter.get("/api/user/:userId/post", PostController.getPostByUserId);

@@ -14,6 +14,7 @@ export interface UserRequest {
   bio: string | null;
   name: string;
   email: string;
+  password?: string;
 }
 
 export interface UserIsActiveRequest {

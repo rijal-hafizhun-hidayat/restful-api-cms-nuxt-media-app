@@ -49,7 +49,7 @@ export class UserController {
       const result = await UserService.updateIsActiveUser(userId, request);
       return res.status(200).json({
         statusCode: 200,
-        message: "success update is_active user",
+        message: "success update active user",
         data: result,
       });
     } catch (error) {
@@ -85,7 +85,7 @@ export class UserController {
       const result = await UserService.updateEmailVerifiedAtByUserId(userId);
       return res.status(200).json({
         statusCode: 200,
-        message: "success verified user",
+        message: "success verified email user",
         data: result,
       });
     } catch (error) {
@@ -123,6 +123,24 @@ export class UserController {
       return res.status(200).json({
         statusCode: 200,
         message: "success update user",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async storeUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const request: UserRequest = req.body as UserRequest;
+      const result = await UserService.storeUser(request);
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success store user",
         data: result,
       });
     } catch (error) {
