@@ -143,7 +143,7 @@ export class UserService {
     request: UserRequest
   ): Promise<UserResponse> {
     const requestBody: UserRequest = Validation.validate(
-      UserValidation.updateUserValidation,
+      UserValidation.updateUserRequest,
       request
     );
 
@@ -171,5 +171,39 @@ export class UserService {
     ]);
 
     return toUserResponse(updatedUser);
+  }
+
+  static async storeUser(request: UserRequest): Promise<UserResponse> {
+    const requestBody: UserRequest = Validation.validate(
+      UserValidation.storeUserRequest,
+      request
+    );
+
+    const isEmailExist = await prisma.user.findUnique({
+      where: {
+        email: requestBody.email,
+      },
+    });
+
+    if (isEmailExist) {
+      throw new ErrorResponse(404, "email already exist");
+    }
+
+    const hasedPassword = await Bun.password.hash(
+      requestBody.password as string
+    );
+
+    const [storeUser] = await prisma.$transaction([
+      prisma.user.create({
+        data: {
+          name: requestBody.name,
+          bio: requestBody.bio,
+          email: requestBody.email,
+          password: hasedPassword,
+        },
+      }),
+    ]);
+
+    return toUserResponse(storeUser);
   }
 }
