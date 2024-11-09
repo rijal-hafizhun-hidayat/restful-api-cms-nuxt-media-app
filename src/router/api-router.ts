@@ -74,9 +74,17 @@ apiRouter.post(
   "/api/notification_type",
   NotificationTypeController.storeNotificationType
 );
+apiRouter.get(
+  "/api/notification_type/:notificationTypeId",
+  NotificationTypeController.findNotificationTypeByNotificationTypeId
+);
 apiRouter.delete(
   "/api/notification_type/:notificationTypeId",
   NotificationTypeController.destroyNotificationTypeByNotificationTypeId
+);
+apiRouter.put(
+  "/api/notification_type/:notificationTypeId",
+  NotificationTypeController.updateNotificationTypeByNotificationTypeId
 );
 
 export { apiRouter };

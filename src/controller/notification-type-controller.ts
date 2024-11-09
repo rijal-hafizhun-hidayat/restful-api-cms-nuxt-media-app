@@ -63,4 +63,53 @@ export class NotificationTypeController {
       next(error);
     }
   }
+
+  static async findNotificationTypeByNotificationTypeId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const notificationTypeId: number = parseInt(
+        req.params.notificationTypeId
+      );
+      const result =
+        await NotificationTypeService.findNotificationTypeByNotificationTypeId(
+          notificationTypeId
+        );
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success find notification type",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async updateNotificationTypeByNotificationTypeId(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
+    try {
+      const notificationTypeId: number = parseInt(
+        req.params.notificationTypeId
+      );
+      const request: NotificationTypeRequest =
+        req.body as NotificationTypeRequest;
+      const result =
+        await NotificationTypeService.updateNotificationTypeByNotificationTypeId(
+          request,
+          notificationTypeId
+        );
+      return res.status(200).json({
+        statusCode: 200,
+        message: "success update notification type",
+        data: result,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
